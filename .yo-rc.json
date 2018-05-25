@@ -1,0 +1,14 @@
+{
+  "generator-videojs-plugin": {
+    "scope": "",
+    "name": "current-video",
+    "description": "Provides a simple interface for managing & acting on custom video metadata.",
+    "author": "Lance Geng <longlivelance@gmail.com>",
+    "license": "mit",
+    "sass": false,
+    "ie8": false,
+    "docs": true,
+    "lang": false,
+    "husky": "lint"
+  }
+}
