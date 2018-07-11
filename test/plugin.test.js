@@ -38,7 +38,7 @@ QUnit.module('videojs-current-video', {
 });
 
 QUnit.test('registers itself with video.js', function(assert) {
-  assert.expect(2);
+  assert.expect(1);
 
   assert.strictEqual(
     typeof Player.prototype.currentVideo,
@@ -47,12 +47,54 @@ QUnit.test('registers itself with video.js', function(assert) {
   );
 
   this.player.currentVideo();
+});
+
+QUnit.test('setCurrentVideo function is present and working as expected', function(assert) {
+  assert.expect(4);
+
+  assert.strictEqual(
+    typeof plugin.prototype.setCurrentVideo,
+    'function',
+    'setCurrentVideo is a function'
+  );
 
   // Tick the clock forward enough to trigger the player to be "ready".
   this.clock.tick(1);
 
-  assert.ok(
-    this.player.hasClass('vjs-current-video'),
-    'the plugin adds a class to the player'
+  assert.strictEqual(
+    this.player.currentVideo().setCurrentVideo(),
+    false,
+    'setCurrentVideo returns false if a video is not passed in.'
+  );
+  assert.strictEqual(
+    this.player.currentVideo().setCurrentVideo({}),
+    false,
+    'setCurrentVideo returns true if a video is passed in and successfully set.'
+  );
+  assert.strictEqual(
+    this.player.currentVideo().setCurrentVideo({title:'Test Title'}),
+    true,
+    'setCurrentVideo returns false if an empty video is not passed in.'
+  );
+});
+
+QUnit.test('getCurrentVideo function is present and working as expected', function(assert) {
+  assert.expect(2);
+
+  assert.strictEqual(
+    typeof plugin.prototype.getCurrentVideo,
+    'function',
+    'getCurrentVideo is a function'
+  );
+
+  this.player.currentVideo().setCurrentVideo({title:'Test Title'})
+  
+  // Tick the clock forward enough to trigger the player to be "ready".
+  this.clock.tick(1);
+
+  assert.strictEqual(
+    this.player.currentVideo().getCurrentVideo(),
+    {title: 'Test Title'},
+    'getCurrentVideo returns te current video.'
   );
 });
